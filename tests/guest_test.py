@@ -4,4 +4,6 @@ from classes.guest import Guest
 class TestGuest(unittest.TestCase):
 
     def setUp(self):
-        pass
+        self.guest_1 = Guest("Adam")
+
+    
