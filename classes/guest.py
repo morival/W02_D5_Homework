@@ -13,6 +13,16 @@ class Guest:
         else:
             return False
 
-    def checkin_guest(self):
+    def checking_in_guest(self):
         if self.check_if_guest_can_checkin() == True:
             self.status = "checked-in"
+
+    def check_if_guest_can_checkout(self):
+        if self.status == "checked-in":
+            return True
+        else:
+            return False
+
+    def checking_out_guest(self):
+        if self.check_if_guest_can_checkout() == True:
+            self.status = "checked-out"

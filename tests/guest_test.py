@@ -35,8 +35,16 @@ class TestGuest(unittest.TestCase):
         self.assertEqual(True, self.guest_02.check_if_guest_can_checkin())
 
     def test_checkin_guest(self):
-        self.guest_02.checkin_guest()
+        self.guest_02.checking_in_guest()
         self.assertEqual("checked-in", self.guest_02.status)
+
+    def test_check_if_guest_can_checkout(self):
+        self.guest_01.check_if_guest_can_checkout()
+        self.assertEqual(True, self.guest_01.check_if_guest_can_checkout())
+
+    def test_checkout_guest(self):
+        self.guest_06.checking_out_guest()
+        self.assertEqual("checked-out", self.guest_06.status)
 
 # Guest Wallet
     def test_check_guest_wallet(self):
