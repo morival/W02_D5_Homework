@@ -10,7 +10,7 @@ class TestKaraokeBar(unittest.TestCase):
     def setUp(self):
         
         self.guest = Guest("John Stone", "checked-in", 50.00, "Kashmir", "\'80")
-        self.room = Room()
+        self.room = Room("Rock Room", 5, 10.00)
         self.song = Song("Kashmir", "Led Zeppelin", "Rock")
         self.karaoke_bar = KaraokeBar(self.guest, self.room, self.song, "Screeching Seagull")
 
