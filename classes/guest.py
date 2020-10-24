@@ -6,6 +6,7 @@ class Guest:
         self.wallet = wallet
         self.favourite_song = favourite_song
         self.disliked_artist = disliked_artist
+        
 
     def check_if_guest_can_checkin(self):
         if self.status == "waiting":

@@ -4,9 +4,9 @@ from classes.room import Room
 class TestRoom(unittest.TestCase):
 
     def setUp(self):
-        self.room_01 = Room("Rock Room", 5, 10.00)
-        self.room_02 = Room("Reggae Room", 4, 12.00)
-        self.room_03 = Room("\'80s Room", 6, 15.00)
+        self.room_01 = Room("Rock Room", 5, 10.00, [], [])
+        self.room_02 = Room("Reggae Room", 4, 12.00, [], [])
+        self.room_03 = Room("\'80s Room", 6, 15.00, [], [])
 
     # Room Name
     def test_check_room_name(self):

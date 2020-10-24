@@ -20,7 +20,13 @@ class TestGuest(unittest.TestCase):
         self.guest_14 = Guest("Maureen M. Smith", "checked-in", 12.70, "Get Busy", "Soom-T")
         self.guest_15 = Guest("Desiree Burch", "checked-in", 61.00, "Another Brick in the Wall", "Madonna")
         self.guest_16 = Guest("Daly Harry", "waiting", 47.80, "Billie Jean", "TOTO")
-
+        self.guest_17 = Guest("Hayman Andrews", "waiting", 59.10, "Vietnam", "Sean Paul"), 
+        self.guest_18 = Guest("Ruveni Ellawala", "waiting", 3.50, "Smoke on the Water", "Prince")
+    
+        
+# Create New Guest
+    # def test_create_new_guest(self):
+    #     self.assertEqual()
 
 # Guest Name
     def test_check_guest_name(self):
@@ -30,21 +36,21 @@ class TestGuest(unittest.TestCase):
     def test_check_guest_status(self):
         self.assertEqual("checked-in", self.guest_01.status)
 
-    def test_check_if_guest_can_checkin(self):
-        self.guest_02.check_if_guest_can_checkin()
-        self.assertEqual(True, self.guest_02.check_if_guest_can_checkin())
+    # def test_check_if_guest_can_checkin(self):
+    #     self.guest_02.check_if_guest_can_checkin()
+    #     self.assertEqual(True, self.guest_02.check_if_guest_can_checkin())
 
-    def test_checkin_guest(self):
-        self.guest_02.checking_in_guest()
-        self.assertEqual("checked-in", self.guest_02.status)
+    # def test_checkin_guest(self):
+    #     self.guest_02.checking_in_guest()
+    #     self.assertEqual("checked-in", self.guest_02.status)
 
-    def test_check_if_guest_can_checkout(self):
-        self.guest_01.check_if_guest_can_checkout()
-        self.assertEqual(True, self.guest_01.check_if_guest_can_checkout())
+    # def test_check_if_guest_can_checkout(self):
+    #     self.guest_01.check_if_guest_can_checkout()
+    #     self.assertEqual(True, self.guest_01.check_if_guest_can_checkout())
 
-    def test_checkout_guest(self):
-        self.guest_06.checking_out_guest()
-        self.assertEqual("checked-out", self.guest_06.status)
+    # def test_checkout_guest(self):
+    #     self.guest_06.checking_out_guest()
+    #     self.assertEqual("checked-out", self.guest_06.status)
 
 # Guest Wallet
     def test_check_guest_wallet(self):
@@ -58,7 +64,7 @@ class TestGuest(unittest.TestCase):
     def test_check_guest_disliked_artist(self):
         self.assertEqual("Madonna", self.guest_15.disliked_artist)
 
-# Guest reaction to song
+# Guest Reaction to Song
     def test_guest_likes_the_song(self):
         self.guest_08.guest_likes_the_song()
         self.assertEqual("Oh Yeah!", self.guest_08.guest_likes_the_song())
@@ -66,3 +72,4 @@ class TestGuest(unittest.TestCase):
     def test_guest_doesnt_like_the_song(self):
         self.guest_06.guest_doesnt_like_the_song()
         self.assertEqual("I will skip this one", self.guest_06.guest_doesnt_like_the_song())
+
