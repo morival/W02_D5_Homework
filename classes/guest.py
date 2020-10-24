@@ -1,11 +1,11 @@
 class Guest:
 
-    def __init__(self, name, status, wallet, favourite_song, hated_genre):
+    def __init__(self, name, status, wallet, favourite_song, disliked_artist):
         self.name = name
         self.status = status
         self.wallet = wallet
         self.favourite_song = favourite_song
-        self.hated_genre = hated_genre
+        self.disliked_artist = disliked_artist
 
     def check_if_guest_can_checkin(self):
         if self.status == "waiting":
@@ -26,3 +26,9 @@ class Guest:
     def checking_out_guest(self):
         if self.check_if_guest_can_checkout() == True:
             self.status = "checked-out"
+
+    def guest_likes_the_song(self):
+        return "Oh Yeah!"
+
+    def guest_doesnt_like_the_song(self):
+        return "I will skip this one"
