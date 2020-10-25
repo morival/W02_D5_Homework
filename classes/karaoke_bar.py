@@ -49,6 +49,28 @@ class KaraokeBar:
     def remove_room_from_list(self, room):
         self.list_of_rooms.remove(room)
 
+# Bar Tab
+    # Guest can Afford Drink
+    def guest_can_afford_drink(self, guest, drink_price):
+        if guest.wallet >= drink_price:
+            return True
+        else:
+            return False
+
+    # Guest Pay for Drink at the Bar
+    def guest_pay_for_drink(self, guest, drink_price):
+        if self.guest_can_afford_drink(guest, drink_price) == True:
+            guest.wallet -= drink_price
+        return "Sorry. You don't have enough money to pay for this drink."
+
+    # Add Money to Till
+    def pay_to_till(self, drink_name, bar_tab, guest):
+        bar_tab.till_records["item"] = drink_name
+        bar_tab.till_records["price"] = self.check_drink_price(bar_tab.menu, drink_name)
+        bar_tab.till_records["customer"] = guest.name
+
+    # Register Transaction
+
 # Songs
     # Assign Song to Room
     def assign_song(self, song, room):

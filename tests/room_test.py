@@ -6,8 +6,14 @@ class TestRoom(unittest.TestCase):
 
     def setUp(self):
     
+    # Menu
+        self.menu = [{
+                "name": "Ya Danger",
+                "price": 9.00,
+                "ingredients": ["Hendrick’s Orbium", "Fino", "Queen Olive", "Pineapple"]
+            }]
     # Bar
-        self.bar_tab_01 = BarTab("Cocktail Bar", {}, 0)
+        self.bar_tab_01 = BarTab("Cocktail Bar", self.menu, {})
 
     # Rooms
         self.room_01 = Room("Rock Room", 5, 10.00, [], [], self.bar_tab_01)
@@ -15,7 +21,7 @@ class TestRoom(unittest.TestCase):
         self.room_03 = Room("\'80s Room", 6, 15.00, [], [], self.bar_tab_01)
 
     # Income Records
-        
+
 
     # Room Name
     def test_check_room_name(self):

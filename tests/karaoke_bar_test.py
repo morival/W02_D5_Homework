@@ -4,6 +4,7 @@ from classes.guest import *
 from classes.room import *
 from classes.song import *
 from classes.karaoke_bar import *
+from classes.bar_tab import *
 
 class TestKaraokeBar(unittest.TestCase):
 
@@ -29,10 +30,19 @@ class TestKaraokeBar(unittest.TestCase):
         self.guest_17 = Guest("Hayman Andrews", "waiting", 59.10, "Vietnam", "Sean Paul"), 
         self.guest_18 = Guest("Ruveni Ellawala", "waiting", 3.50, "Smoke on the Water", "Prince")
 
+    # Menu
+        self.menu = [{
+                "name": "Ya Danger",
+                "price": 9.00,
+                "ingredients": ["Hendrick’s Orbium", "Fino", "Queen Olive", "Pineapple"]
+            }]
+    # Bar
+        self.bar_tab_01 = BarTab("Cocktail Bar", self.menu, [])
+
     # Rooms
-        self.room_01 = Room("Rock Room", 5, 10.00, [], [], {})
-        self.room_02 = Room("Reggae Room", 4, 12.00, [], [], {})
-        self.room_03 = Room("\'80s Room", 6, 15.00, [], [], {})
+        self.room_01 = Room("Rock Room", 5, 10.00, [], [], self.bar_tab_01)
+        self.room_02 = Room("Reggae Room", 4, 12.00, [], [], self.bar_tab_01)
+        self.room_03 = Room("\'80s Room", 6, 15.00, [], [], self.bar_tab_01)
 
     # Songs
         self.song_01 = Song("Smells Like Teen Spirit", "Nirvana", "Rock")
@@ -179,13 +189,39 @@ class TestKaraokeBar(unittest.TestCase):
         self.assertEqual("Whoo!", self.karaoke_bar.reaction_to_songs(self.guest_01, self.rock_songs))
 
         # Negative
-    # def test_guest_doesnt_like_the_song(self):
+    def test_guest_doesnt_like_the_song(self):
         self.karaoke_bar.reaction_to_songs(self.guest_03, self.rock_songs)
         self.assertEqual("I will skip this one", self.karaoke_bar.reaction_to_songs(self.guest_03, self.rock_songs))
 
-    # Payments
-        # Entry Fee
+# Payments
+    # Entry Fee
     def test_guest_pays_entry_fee(self):
         self.karaoke_bar.add_room_to_list(self.room_01)
         self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
         self.assertEqual(40.00, self.karaoke_bar.list_of_rooms[0].checked_in_guests[0].wallet)
+
+    # Bar Sell Drinks
+        # Guest can Afford Drink
+    def test_guest_can_afford_drink(self):
+        drink_price = self.bar_tab_01.check_drink_price(self.bar_tab_01.menu, "Ya Danger")
+        self.assertEqual(True, self.karaoke_bar.guest_can_afford_drink(self.guest_01, drink_price))
+
+    def test_guest_pay_for_drink(self):
+        drink_price = self.bar_tab_01.check_drink_price(self.bar_tab_01.menu, "Ya Danger")
+        self.karaoke_bar.guest_pay_for_drink(self.guest_01, drink_price)   
+        self.assertEqual(41.00, self.guest_01.wallet)
+
+        # Register Transaction to Till 
+    def test_pay_to_till(self):
+        # drink_price = self.bar_tab_01.check_drink_price(self.bar_tab_01.menu, "Ya Danger")
+        drink_name = self.bar_tab_01.check_drink_name(self.bar_tab_01.menu, "Ya Danger")
+        self.karaoke_bar.pay_to_till(drink_name, self.bar_tab_01, self.guest_01)
+        self.assertEqual("Ya Danger", self.bar_tab_01.till_records["item"])
+        self.assertEqual(9.00, self.bar_tab_01.till_records["price"])
+        self.assertEqual("John Stone", self.bar_tab_01.till_records["customer"])
+
+
+        # Register Transaction
+    # def test_register_transaction(self):
+
+    #     self.assertEqual
