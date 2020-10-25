@@ -32,7 +32,7 @@ class TestSong(unittest.TestCase):
 
     # Song Artist
     def test_check_song_artist(self):
-        self.assertEqual("Bob Marley", self.song_08.artisit)
+        self.assertEqual("Bob Marley", self.song_08.artist)
 
     # Song Genre
     def test_check_song_genre(self):

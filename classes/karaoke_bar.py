@@ -7,7 +7,7 @@ class KaraokeBar:
         self.bar_name = bar_name
         self.list_of_guests = []
         self.list_of_rooms = []
-        self.list_of_songs = []
+
         
 # Guests
     # Guest List
@@ -38,13 +38,6 @@ class KaraokeBar:
         if guest in room.checked_in_guests:
             room.checked_in_guests.remove(guest)
 
-    # Reaction to Song/Artist
-    def guest_likes_the_song(self):
-        return "Oh Yeah!"
-
-    def guest_doesnt_like_the_song(self):
-        return "I will skip this one"
-
 # Rooms
     # Room List
     def room_count(self):
@@ -57,17 +50,7 @@ class KaraokeBar:
         self.list_of_rooms.remove(room)
 
 # Songs
-    # Song List
-    def song_count(self):
-        return len(self.list_of_songs)
-
-    def add_song_to_list(self, new_song):
-        self.list_of_songs.append(new_song)
-
-    def remove_song_from_list(self, song):
-        self.list_of_songs.remove(song)
-
-    # Assign Song
+    # Assign Song to Room
     def assign_song(self, song, room):
         if song not in room.assigned_songs:
             room.assigned_songs.append(song)
@@ -76,4 +59,12 @@ class KaraokeBar:
     def remove_song(self, song, room):
         if song in room.assigned_songs:
             room.assigned_songs.remove(song)
+
+    # Reaction to Song/Artist
+    def reaction_to_songs(self, guest, list_of_songs):
+        for song in list_of_songs:
+            if guest.favourite_song == song.title:
+                return "Whoo!"
+            elif guest.disliked_artist == song.artist:
+                return "I will skip this one"
 

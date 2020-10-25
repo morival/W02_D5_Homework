@@ -30,9 +30,9 @@ class TestKaraokeBar(unittest.TestCase):
         self.guest_18 = Guest("Ruveni Ellawala", "waiting", 3.50, "Smoke on the Water", "Prince")
 
     # Rooms
-        self.room_01 = Room("Rock Room", 5, 10.00, [], [])
-        self.room_02 = Room("Reggae Room", 4, 12.00, [], [])
-        self.room_03 = Room("\'80s Room", 6, 15.00, [], [])
+        self.room_01 = Room("Rock Room", 5, 10.00, [], [], {})
+        self.room_02 = Room("Reggae Room", 4, 12.00, [], [], {})
+        self.room_03 = Room("\'80s Room", 6, 15.00, [], [], {})
 
     # Songs
         self.song_01 = Song("Smells Like Teen Spirit", "Nirvana", "Rock")
@@ -56,8 +56,11 @@ class TestKaraokeBar(unittest.TestCase):
         self.song_19 = Song("When Doves Cry", "Prince", "\'80s")
         self.song_20 = Song("Eye of the Tiger", "Survivor", "\'80s")
         self.song_21 = Song("La Bamba", "Los Labos", "\'80s")
-
-    # Karaoke Bar
+        self.rock_songs = [self.song_01, self.song_02, self.song_03, self.song_04, self.song_05, self.song_06, self.song_07]
+        self.reggae_songs = [self.song_08, self.song_09, self.song_10, self.song_11, self.song_12, self.song_13, self.song_14]
+        self.eighties_songs = [self.song_15, self.song_16, self.song_17, self.song_18, self.song_19, self.song_20, self.song_21]
+        
+# Karaoke Bar
         self.karaoke_bar = KaraokeBar(self.guest_01, self.room_01, self.song_05, "Screeching Seagull")
 
 
@@ -98,7 +101,7 @@ class TestKaraokeBar(unittest.TestCase):
 
         # Check-in Guest to First Free Room and Pay Entry Fee
     def test_add_guest_to_first_free_room_and_pay(self):
-        full_room = Room("Rock Room", 5, 10.00, ["g1", "g2", "g3", "g4", "g5"], [])
+        full_room = Room("Rock Room", 5, 10.00, ["g1", "g2", "g3", "g4", "g5"], [], {})
         self.karaoke_bar.add_room_to_list(full_room)
         self.karaoke_bar.add_room_to_list(self.room_02)
         self.karaoke_bar.add_room_to_list(self.room_03)
@@ -109,7 +112,7 @@ class TestKaraokeBar(unittest.TestCase):
 
         # Check when all Rooms are Full
     def test_all_rooms_full(self):
-        full_room = Room("Rock Room", 5, 10.00, ["g1", "g2", "g3", "g4", "g5"], [])
+        full_room = Room("Rock Room", 5, 10.00, ["g1", "g2", "g3", "g4", "g5"], [], {})
         self.karaoke_bar.add_room_to_list(full_room)
         self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
         self.assertEqual("All rooms are full. Please try later.", \
@@ -128,68 +131,57 @@ class TestKaraokeBar(unittest.TestCase):
         self.karaoke_bar.guest_check_out_from_room(self.guest_01, self.room_01)
         self.assertEqual(0, len(self.room_01.checked_in_guests))
 
-    # # Guest Reaction to Song/Artist
-    #     # Positive
-    # def test_guest_likes_the_song(self):
-    #     self.guest_08.guest_likes_the_song()
-    #     self.assertEqual("Oh Yeah!", self.guest_08.guest_likes_the_song())
-
-    #     # Negative
-    # def test_guest_doesnt_like_the_song(self):
-    #     self.guest_06.guest_doesnt_like_the_song()
-    #     self.assertEqual("I will skip this one", self.guest_06.guest_doesnt_like_the_song())
-
 # Rooms
     # List of Rooms
-    def test_check_number_of_rooms_in_list_while_empty(self):
+        # Check Number of Rooms on List before Adding
+    def test_check_number_of_rooms_on_list_while_empty(self):
         self.assertEqual(0, self.karaoke_bar.room_count())
     
-        # add
+        # Add Room to List
     def test_add_room_to_list(self):
         self.karaoke_bar.add_room_to_list(self.room_01)
         self.assertEqual(1, self.karaoke_bar.room_count())
         self.assertEqual("Rock Room", self.karaoke_bar.list_of_rooms[0].name)
 
-        # remove
+        # Remove Room from List
     def test_remove_room_from_list(self):
         self.karaoke_bar.add_room_to_list(self.room_01)
         self.karaoke_bar.remove_room_from_list(self.room_01)
         self.assertEqual(0, self.karaoke_bar.room_count())
 
-# Songs
-    # List of Songs
-    def test_check_number_of_songs_in_list_while_empty(self):
-        self.assertEqual(0, self.karaoke_bar.song_count())
-
-        # add
-    def test_add_song_to_list(self):
-        self.karaoke_bar.add_song_to_list(self.song_05)
-        self.assertEqual(1, self.karaoke_bar.song_count())
-        self.assertEqual("Kashmir", self.karaoke_bar.list_of_songs[0].title)
-
-        # remove
-    def test_remove_song_from_list(self):
-        self.karaoke_bar.add_song_to_list(self.song_05)
-        self.karaoke_bar.remove_song_from_list(self.song_05)
-        self.assertEqual(0, self.karaoke_bar.song_count())
-
-        # assign to room
+    #  List of Assigned Songs
+        # Assign to Room
     def test_assign_song_to_room(self):
-        self.karaoke_bar.assign_song(self.song_05, self.room_01)
+        self.karaoke_bar.add_room_to_list(self.room_01)
+        self.karaoke_bar.assign_song(self.song_05, self.karaoke_bar.list_of_rooms[0])
         self.assertEqual("Kashmir", self.room_01.assigned_songs[0].title)
-        self.assertEqual(1, len(self.room_01.assigned_songs))
+        self.assertEqual(1, len(self.karaoke_bar.list_of_rooms[0].assigned_songs))
         
-        # Not allowed multiple check-in of the same person to the same room
+        # Not allowed repeating Songs in Room
     def test_multi_assign_same_song_not_allowed(self):
-        self.karaoke_bar.assign_song(self.song_05, self.room_01)
+        self.karaoke_bar.add_room_to_list(self.room_01)
+        self.karaoke_bar.assign_song(self.song_05, self.karaoke_bar.list_of_rooms[0]) # checking different way of accessing the element in nested list 
+        self.karaoke_bar.assign_song(self.song_05, self.karaoke_bar.list_of_rooms[0])        
         self.karaoke_bar.assign_song(self.song_05, self.room_01)
         self.assertEqual(1, len(self.room_01.assigned_songs))
 
-        # remove from room
+        # Remove Song from Room
     def test_remove_song_from_room(self):
-        self.karaoke_bar.assign_song(self.song_05, self.room_01)
+        self.karaoke_bar.add_room_to_list(self.room_01)
+        self.karaoke_bar.assign_song(self.song_05, self.karaoke_bar.list_of_rooms[0]) 
         self.karaoke_bar.remove_song(self.song_05, self.room_01)
         self.assertEqual(0, len(self.room_01.assigned_songs))
+    
+    # Guest Reaction to Song/Artist
+        # Positive
+    def test_guest_likes_the_song(self):
+        self.karaoke_bar.reaction_to_songs(self.guest_01, self.rock_songs)
+        self.assertEqual("Whoo!", self.karaoke_bar.reaction_to_songs(self.guest_01, self.rock_songs))
+
+        # Negative
+    # def test_guest_doesnt_like_the_song(self):
+        self.karaoke_bar.reaction_to_songs(self.guest_03, self.rock_songs)
+        self.assertEqual("I will skip this one", self.karaoke_bar.reaction_to_songs(self.guest_03, self.rock_songs))
 
     # Payments
         # Entry Fee
