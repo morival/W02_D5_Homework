@@ -10,21 +10,21 @@ class TestKaraokeBar(unittest.TestCase):
     def setUp(self):
         
     # Guests
-        self.guest_01 = Guest("John Stone", "checked-in", 50.00, "Kashmir", "Michael Jackson")
+        self.guest_01 = Guest("John Stone", "waiting", 50.00, "Kashmir", "Michael Jackson")
         self.guest_02 = Guest("Mia Wong", "waiting", 12.00, "Roxanne", "Prince")
-        self.guest_03 = Guest("Natalie Lee-Walsh", "checked-out", 406.50, "O Carolina", "The Rolling Stones")
+        self.guest_03 = Guest("Natalie Lee-Walsh", "waiting", 406.50, "O Carolina", "The Rolling Stones")
         self.guest_04 = Guest("Ang Li", "waiting", 40.50, "Eye of the Tiger", "Sean Paul")
         self.guest_05 = Guest("Nguta Ithya", "waiting", 36.50, "Natural Mystic", "Pink Floyd")
-        self.guest_06 = Guest("Tamzyn French", "checked-in", 98.00, "We Will Rock You", "Michael Jackson")
-        self.guest_07 = Guest("Salome Simoes", "checked-in", 27.20, "Boom Shiva", "Madonna")
+        self.guest_06 = Guest("Tamzyn French", "waiting", 98.00, "We Will Rock You", "Michael Jackson")
+        self.guest_07 = Guest("Salome Simoes", "waiting", 27.20, "Boom Shiva", "Madonna")
         self.guest_08 = Guest("Trevor Virtue", "waiting", 21.90, "La Bamba", "AC/DC")
-        self.guest_09 = Guest("Eugenia Anders", "checked-out", 320.00, "Africa", "Nirvana")
-        self.guest_10 = Guest("Tarryn Campbell-Gillies", "checked-in", 46.50, "When Doves Cry", "The Police")
-        self.guest_11 = Guest("Andrew Kazantzis", "checked-out", 82.50, "Smells Like Teen Spirit", "Michael Jackson")
+        self.guest_09 = Guest("Eugenia Anders", "waiting", 320.00, "Africa", "Nirvana")
+        self.guest_10 = Guest("Tarryn Campbell-Gillies", "waiting", 46.50, "When Doves Cry", "The Police")
+        self.guest_11 = Guest("Andrew Kazantzis", "waiting", 82.50, "Smells Like Teen Spirit", "Michael Jackson")
         self.guest_12 = Guest("Verona Blair", "waiting", 6.50, "Into the Groove", "Bob Marley")
         self.guest_13 = Guest("Jane Meldrum", "waiting", 116.30, "Born to be Wild", "Shaggy")
-        self.guest_14 = Guest("Maureen M. Smith", "checked-in", 12.70, "Get Busy", "Soom-T")
-        self.guest_15 = Guest("Desiree Burch", "checked-in", 61.00, "Another Brick in the Wall", "Madonna")
+        self.guest_14 = Guest("Maureen M. Smith", "waiting", 12.70, "Get Busy", "Soom-T")
+        self.guest_15 = Guest("Desiree Burch", "waiting", 61.00, "Another Brick in the Wall", "Madonna")
         self.guest_16 = Guest("Daly Harry", "waiting", 47.80, "Billie Jean", "TOTO")
         self.guest_17 = Guest("Hayman Andrews", "waiting", 59.10, "Vietnam", "Sean Paul"), 
         self.guest_18 = Guest("Ruveni Ellawala", "waiting", 3.50, "Smoke on the Water", "Prince")
@@ -82,29 +82,12 @@ class TestKaraokeBar(unittest.TestCase):
         self.assertEqual(0, self.karaoke_bar.guest_count())
 
     # Check-in Check-out
-        # Check-in to room
-    def test_guest_check_in_to_room(self):
-        self.karaoke_bar.add_room_to_list(self.room_01)
-        self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
-        self.assertEqual("John Stone", self.room_01.checked_in_guests[0].name)
-        self.assertEqual(1, len(self.room_01.checked_in_guests))
-        self.assertEqual("checked-in", self.room_01.checked_in_guests[0].status)
-
         # Check-in Guest to Room that is on the List
     def test_add_guest_to_room_on_list(self):
         self.karaoke_bar.add_room_to_list(self.room_01)
         self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
         self.assertEqual("John Stone", self.karaoke_bar.list_of_rooms[0].checked_in_guests[0].name)
-
-        # Check-in Guest to First Free Room
-    def test_add_guest_to_first_free_room(self):
-        full_room = Room("Rock Room", 5, 10.00, ["g1", "g2", "g3", "g4", "g5"], [])
-        self.karaoke_bar.add_room_to_list(full_room)
-        self.karaoke_bar.add_room_to_list(self.room_02)
-        self.karaoke_bar.add_room_to_list(self.room_03)
-        self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
-        self.assertEqual("John Stone", self.karaoke_bar.list_of_rooms[1].checked_in_guests[0].name)
-        self.assertEqual(0, len(self.karaoke_bar.list_of_rooms[2].checked_in_guests))
+        self.assertEqual("checked-in", self.karaoke_bar.list_of_rooms[0].checked_in_guests[0].status)
 
         # Not allowed multiple check-in of the same person to the same room
     def test_multi_check_in_same_guest_not_allowed(self):
@@ -113,12 +96,48 @@ class TestKaraokeBar(unittest.TestCase):
         self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
         self.assertEqual(1, len(self.room_01.checked_in_guests))
 
+        # Check-in Guest to First Free Room and Pay Entry Fee
+    def test_add_guest_to_first_free_room_and_pay(self):
+        full_room = Room("Rock Room", 5, 10.00, ["g1", "g2", "g3", "g4", "g5"], [])
+        self.karaoke_bar.add_room_to_list(full_room)
+        self.karaoke_bar.add_room_to_list(self.room_02)
+        self.karaoke_bar.add_room_to_list(self.room_03)
+        self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
+        self.assertEqual("John Stone", self.karaoke_bar.list_of_rooms[1].checked_in_guests[0].name)
+        self.assertEqual(0, len(self.karaoke_bar.list_of_rooms[2].checked_in_guests))
+        self.assertEqual(38, self.karaoke_bar.list_of_rooms[1].checked_in_guests[0].wallet)
+
+        # Check when all Rooms are Full
+    def test_all_rooms_full(self):
+        full_room = Room("Rock Room", 5, 10.00, ["g1", "g2", "g3", "g4", "g5"], [])
+        self.karaoke_bar.add_room_to_list(full_room)
+        self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
+        self.assertEqual("All rooms are full. Please try later.", \
+            self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms))
+
+        # Check when Guest does not have enough Money to Pay Entry Fee
+    def test_guest_no_funds_for_entry_fee(self):
+        self.karaoke_bar.add_room_to_list(self.room_01)
+        self.assertEqual("Sorry. You don't have enough money to get in.", \
+            self.karaoke_bar.guest_check_in_free_room(self.guest_12, self.karaoke_bar.list_of_rooms))
+
         # Check-out from room
     def test_guest_check_out_from_room(self):
         self.karaoke_bar.add_room_to_list(self.room_01)
         self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
         self.karaoke_bar.guest_check_out_from_room(self.guest_01, self.room_01)
         self.assertEqual(0, len(self.room_01.checked_in_guests))
+
+    # # Guest Reaction to Song/Artist
+    #     # Positive
+    # def test_guest_likes_the_song(self):
+    #     self.guest_08.guest_likes_the_song()
+    #     self.assertEqual("Oh Yeah!", self.guest_08.guest_likes_the_song())
+
+    #     # Negative
+    # def test_guest_doesnt_like_the_song(self):
+    #     self.guest_06.guest_doesnt_like_the_song()
+    #     self.assertEqual("I will skip this one", self.guest_06.guest_doesnt_like_the_song())
 
 # Rooms
     # List of Rooms
@@ -172,4 +191,9 @@ class TestKaraokeBar(unittest.TestCase):
         self.karaoke_bar.remove_song(self.song_05, self.room_01)
         self.assertEqual(0, len(self.room_01.assigned_songs))
 
-    
+    # Payments
+        # Entry Fee
+    def test_guest_pays_entry_fee(self):
+        self.karaoke_bar.add_room_to_list(self.room_01)
+        self.karaoke_bar.guest_check_in_free_room(self.guest_01, self.karaoke_bar.list_of_rooms)
+        self.assertEqual(40.00, self.karaoke_bar.list_of_rooms[0].checked_in_guests[0].wallet)

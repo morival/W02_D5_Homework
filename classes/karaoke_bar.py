@@ -22,18 +22,28 @@ class KaraokeBar:
 
     # Check-in to Free Room
     def guest_check_in_free_room(self, guest, list_of_rooms):
-        for room in list_of_rooms:
-            if len(room.checked_in_guests) < room.capacity:
-                if guest not in room.checked_in_guests:
-                    return room.checked_in_guests.append(guest),\
-                    guest.status.replace("waiting", "checked-in")
-            elif len(room.checked_in_guests) == room.capacity:
-                "All rooms are full. Please try later."
+        for room in list_of_rooms: 
+            if len(room.checked_in_guests) < room.capacity: # check if the room is full
+                if guest not in room.checked_in_guests: # check for dubplicated names
+                    if guest.wallet >= room.entry_fee:              
+                        guest.wallet -= room.entry_fee
+                        guest.status ="checked-in"
+                        return room.checked_in_guests.append(guest)
+                    else:
+                        return "Sorry. You don't have enough money to get in."
+        return "All rooms are full. Please try later."
 
     # Check-out
     def guest_check_out_from_room(self, guest, room):
         if guest in room.checked_in_guests:
             room.checked_in_guests.remove(guest)
+
+    # Reaction to Song/Artist
+    def guest_likes_the_song(self):
+        return "Oh Yeah!"
+
+    def guest_doesnt_like_the_song(self):
+        return "I will skip this one"
 
 # Rooms
     # Room List
@@ -67,4 +77,3 @@ class KaraokeBar:
         if song in room.assigned_songs:
             room.assigned_songs.remove(song)
 
-    
