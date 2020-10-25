@@ -63,13 +63,11 @@ class KaraokeBar:
             guest.wallet -= drink_price
         return "Sorry. You don't have enough money to pay for this drink."
 
-    # Add Money to Till
+    # Register Transaction to Till
     def pay_to_till(self, drink_name, bar_tab, guest):
-        bar_tab.till_records["item"] = drink_name
-        bar_tab.till_records["price"] = self.check_drink_price(bar_tab.menu, drink_name)
-        bar_tab.till_records["customer"] = guest.name
-
-    # Register Transaction
+        bar_tab.till_records["item"] = f"{drink_name}"
+        bar_tab.till_records["price"] = bar_tab.check_drink_price(bar_tab.menu, drink_name)
+        bar_tab.till_records["customer"] = f"{guest.name}"
 
 # Songs
     # Assign Song to Room

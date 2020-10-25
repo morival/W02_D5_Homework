@@ -37,7 +37,7 @@ class TestKaraokeBar(unittest.TestCase):
                 "ingredients": ["Hendrick’s Orbium", "Fino", "Queen Olive", "Pineapple"]
             }]
     # Bar
-        self.bar_tab_01 = BarTab("Cocktail Bar", self.menu, [])
+        self.bar_tab_01 = BarTab("Cocktail Bar", self.menu, {})
 
     # Rooms
         self.room_01 = Room("Rock Room", 5, 10.00, [], [], self.bar_tab_01)
